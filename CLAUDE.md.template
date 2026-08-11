@@ -1,0 +1,46 @@
+# Master Orchestration Hub
+
+This directory is the **master session**. It coordinates work across the independent
+projects that live in its subdirectories. The master does not do project work
+directly — it delegates to project-scoped subagents (via `/projects`) and relays
+their results.
+
+## Where memory lives
+
+Claude Code keys memory by the directory a session is launched from:
+
+    ~/.claude/projects/<slug>/memory/  + MEMORY.md
+
+where `<slug>` is the absolute launch path with every non-alphanumeric character
+replaced by `-`. The `project-hub` plugin derives this slug at runtime, so:
+
+- A **direct** `claude` session in `<master>/<project>` reads/writes that project's
+  memory automatically.
+- A **delegated** agent spawned from the master computes the SAME slug and uses the
+  SAME directory.
+
+Both converge → shared, auto-resuming memory. Nothing is hardcoded.
+
+## The delegation catch (why the command passes the path explicitly)
+
+A subagent spawned by the master runs *inside the master's session*, so by default
+its memory dir would be the **master's**, not the project's. The `/projects` command
+therefore hands each subagent the project's resolved memory path (from
+`scripts/project-memory.sh`) so it lands in the right place.
+
+## How to delegate
+
+Use `/projects` (from the project-hub plugin):
+
+- `/projects` — list all projects.
+- `/projects <name>` — spawn a subagent scoped to one project's memory.
+- `/projects <name> <name2>` — one subagent with access to both projects' memory.
+
+Each spawned agent runs in the background and auto-opens a Warp tab streaming its
+live activity. Never read an agent's raw `.output` file yourself — the watcher tab
+renders it in a separate process (reading it here would overflow context).
+
+## Cross-project state
+
+If work affects more than one project, record it in the master's own memory
+(the `master_mem` path from `scripts/project-memory.sh`), not in a single project's.

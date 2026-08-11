@@ -1,0 +1,15 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "project-hub",
+  "description": "Master orchestration hub over project subdirectories.",
+  "owner": {
+    "name": "Sankul Garg"
+  },
+  "plugins": [
+    {
+      "name": "project-hub",
+      "description": "Turn any directory into a master hub over its project subdirectories: /projects lists them and spawns a memory-scoped subagent, then opens a Warp tab streaming its live activity.",
+      "source": "./"
+    }
+  ]
+}

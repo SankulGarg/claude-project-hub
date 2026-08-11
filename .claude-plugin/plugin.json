@@ -1,0 +1,11 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "project-hub",
+  "description": "Turn any directory into a master orchestration hub over its project subdirectories. /projects lists projects and spawns a memory-scoped subagent for one or two of them, then opens a Warp tab streaming the agent's live activity. Memory resolves to Claude's own per-directory store so delegated agents and direct sessions share and auto-resume the same memory.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Sankul Garg"
+  },
+  "commands": "./commands",
+  "keywords": ["orchestration", "memory", "subagents", "multi-project"]
+}
