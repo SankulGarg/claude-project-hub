@@ -14,6 +14,9 @@ from any directory on any machine — nothing is hardcoded to a path or username
 - **`/projects <name> <name2>`** — one subagent with read access to **both** projects'
   memory (writes each finding back to the project it belongs to; cross-project notes
   go to the master's own memory).
+- **`/new-project <name> [--git]`** — create a new project as a subdirectory of the
+  master (optionally `git init` it). Memory is created on first write; run
+  `/projects <name>` afterward to start a memory-scoped agent in it.
 - Every spawned agent runs in the background and **auto-opens a Warp tab** that
   live-streams its activity (tool calls, messages) via a formatter running in that
   separate tab — so watching the agent never pollutes the main session's context.
@@ -65,6 +68,7 @@ without it — the `/projects` command is self-contained.
 
 - `scripts/hub-lib.sh` — shared slug/path derivation (sourced by the others).
 - `scripts/project-memory.sh` — list projects, or resolve names to workdir+memory.
+- `scripts/new-project.sh` — create a new project subdirectory under the master.
 - `scripts/discover-projects.sh` — list projects that have prior Claude history.
 - `scripts/watch-agent.sh` — open a Warp tab streaming a spawned agent's activity.
 - `scripts/format-agent-stream.py` — the stream renderer (runs in the watcher tab).
